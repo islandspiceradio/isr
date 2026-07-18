@@ -1,0 +1,36 @@
+name: Refresh archive playlists
+
+# Re-pulls episode lists from archive.org weekly, so newly added
+# episodes to shows like Dragnet get picked up automatically.
+# Also runnable manually from the Actions tab (workflow_dispatch).
+
+on:
+  schedule:
+    - cron: "0 6 * * 1"   # every Monday, 6am UTC
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repo
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Fetch latest archive.org playlists
+        run: python3 scripts/fetch_archive_playlist.py
+
+      - name: Commit updated playlists if anything changed
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add media/archive/*.m3u
+          git diff --cached --quiet && echo "No changes - nothing to commit" || git commit -m "Refresh archive playlists"
+          git push
