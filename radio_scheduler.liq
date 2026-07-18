@@ -37,6 +37,39 @@ archive_shows = playlist(mode="randomize", reload=3600, "media/archive/OTRR_Drag
 # folder, if you want stretches that are archive-only.
 # ---------------------------------------------------------
 
+# ---------------------------------------------------------
+# MUSIC POOLS — three dayparts
+# ---------------------------------------------------------
+am_music    = playlist(mode="randomize", reload=300, "media/block/am")     # EDM/inspiration
+day_music   = playlist(mode="randomize", reload=300, "media/block/music")
+night_music = playlist(mode="randomize", reload=300, "media/block/l8")
+
+music_pool = switch(track_sensitive=false, [
+  ({5h0m0s-13h0m0s},  am_music),
+  ({13h0m0s-21h0m0s}, day_music),
+  ({21h0m0s-5h0m0s},  night_music)
+])
+
+# ---------------------------------------------------------
+# DROPS — matched to the same three windows, "new" always layered in
+# ---------------------------------------------------------
+drop_am    = playlist(mode="randomize", reload=300, "media/block/drop/am")
+drop_lunch = playlist(mode="randomize", reload=300, "media/block/drop/lunch")   # traffic drops
+drop_pm    = playlist(mode="randomize", reload=300, "media/block/drop/pm")
+drop_new   = playlist(mode="randomize", reload=300, "media/block/drop/new")     # always active
+
+active_drops = switch(track_sensitive=false, [
+  ({5h0m0s-13h0m0s},  drop_am),
+  ({13h0m0s-21h0m0s}, drop_lunch),
+  ({21h0m0s-5h0m0s},  drop_pm)
+])
+
+drops = random(weights=[3, 1], [active_drops, drop_new])
+
+# ---------------------------------------------------------
+# BLOCK MIX — same archive ratio as before
+# ---------------------------------------------------------
+music_and_drops = random(weights=[5, 1], [music_pool, drops])
 block_content = random(weights=[6, 2], [music_and_drops, archive_shows])
 
 # ---------------------------------------------------------
