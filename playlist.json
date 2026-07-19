@@ -1,1 +1,114 @@
-
+{
+  "am": {
+    "music": [
+      "GET IT.mp3",
+      "GOD’s FAVORITE .mp3",
+      "I NEED YOU.mp3",
+      "It’s Over Now.mp3",
+      "Lemons.mp3",
+      "Move.mp3",
+      "Where Did My Friends Go.mp3",
+      "Yella (Remastered x2).mp3",
+      "happier-2.mp3",
+      "he-hears-my-name.mp3",
+      "hit-it-3.mp3",
+      "liberian-princess-2.mp3"
+    ],
+    "drops": [
+      "Am drop 2.mp3",
+      "Top Dawg  -  Jingle.mp3",
+      "XOCO-Theme.mp3"
+    ]
+  },
+  "day": {
+    "music": [
+      "4-x-4.mp3",
+      "5300  St Clair.mp3",
+      "Alexa.mp3",
+      "All I have In This World.mp3",
+      "Best Day Ever.mp3",
+      "Birds.mp3",
+      "I Wanna Go To College.mp3",
+      "It’s Over Now.mp3",
+      "Present.mp3",
+      "The Switchblades - Dirty laundry.mp3",
+      "Where Did My Friends Go.mp3",
+      "XOCO - Ball Out.mp3",
+      "Yella (Remastered x2).mp3",
+      "best-you-ever-had.mp3",
+      "edm-2.mp3",
+      "iSoLuv (prod by FRQSY) (1).mp3"
+    ],
+    "drops": [
+      "Afternoon drive.mp3",
+      "Top Dawg  -  Jingle.mp3",
+      "XOCO-Theme.mp3"
+    ]
+  },
+  "late": {
+    "music": [
+      "2midnight-second-chances.mp3",
+      "5300  St Clair.mp3",
+      "ALL DAT ASS.mp3",
+      "All I have In This World.mp3",
+      "Alright.mp3",
+      "Blow.mp3",
+      "CLAP.mp3",
+      "Captain Peter Remix.mp3",
+      "Disclaimer.mp3",
+      "Do you.mp3",
+      "Feel good 2.mp3",
+      "G4E Soulja X UptGamino x Senaca Mac-BBl.mp3",
+      "G4ESoulja X Uptgambino-March.mp3",
+      "Go Crazy - Og Tuka ft Seneca Mack.mp3",
+      "Growing in the dark.mp3",
+      "It’s Over Now.mp3",
+      "Mackinthedark- Party Going Dilla .mp3",
+      "No Body Dancing.mp3",
+      "Rub My Body Down.mp3",
+      "SENECA SEE IT HURT.mp3",
+      "SO IN LOVE SENECA MACK.mp3",
+      "Seneca Mack - Kinda Horny.mp3",
+      "Skin I’m In.mp3",
+      "Slow Dance.mp3",
+      "So fine.mp3",
+      "Tattoo Like A Scar.mp3",
+      "The Switchblades - Dirty laundry 2.mp3",
+      "The Switchblades - Distant Lover.mp3",
+      "The Switchblades - Ghetto Matrix.mp3",
+      "UNCLE BASE FEAT MS CANDY - 5300 ST CLAIR STREET MIX .mp3",
+      "Uncle Base - Dock Of The Bay.mp3",
+      "Uncle Base - Hanging With My N Base.mp3",
+      "Uncle Base Feat. Ms Candy Lord Don’t Turn Your Back On Me.mp3",
+      "Where Did My Friends Go.mp3",
+      "XOCO - Ball Out.mp3",
+      "burn-2.mp3",
+      "cant-tell-me-nothing3.mp3",
+      "didn’t come home.mp3",
+      "drive-me-crazy-(remastered).mp3",
+      "dust on the subwoofer.mp3",
+      "gas-me-up.mp3",
+      "numbing-pain-(remastered).mp3",
+      "serious-2.mp3",
+      "used-to-(remastered-x2).mp3"
+    ],
+    "drops": [
+      "Pm drop.mp3",
+      "Top Dawg  -  Jingle.mp3",
+      "XOCO-Theme.mp3"
+    ]
+  },
+  "news": [
+    "Beltline.mp3",
+    "Wildfire.mp3"
+  ],
+  "sponsor_order": [
+    "SoLuv Slogan .mp3",
+    "Freddy.mp3",
+    "FRAIDY CATS  SAMPLE.mp3"
+  ],
+  "vingle": {
+    "sponsor": "COMMERCIAL BREAK.mp4",
+    "programming": "DJ MACKINTHEDARK.mp4"
+  }
+}
