@@ -1,67 +1,119 @@
-# Station Scheduler
+# Island Spice Radio
 
-Automated radio scheduler built on Liquidsoap + Icecast. Runs a
-55-minute programming block (music, drops, and old-time-radio
-archive shows) followed by a 5-minute sponsor break, on repeat,
-every hour - with a live override for Mixxx/mic whenever you want
-to take the mic.
+A browser-based radio site. No Liquidsoap, no Icecast, no server —
+the listener's own browser assembles and plays the rotation.
+
+Live at: https://islandspiceradio.github.io/isr/site/
+
+## How it works
+
+By default, the homepage hero shows a looping video reel
+(`media/videos/`). Nothing is playing audio yet.
+
+When someone clicks **Listen live**:
+
+1. The hero reel pauses.
+2. `site/player.js` picks a track based on the time of day and
+   plays it through a hidden `<audio>` element.
+3. Since that audio has no video of its own, a looping **vingle**
+   clip (`video/vingle/`) plays in the hero's place instead — a
+   different clip for sponsor breaks vs. regular programming.
+4. A "Now playing" label shows what's on.
+5. When the track ends, the next one plays automatically. Clicking
+   **Stop** ends playback and brings the hero reel back.
+
+**Scheduling logic** (all in `site/player.js`):
+- **Daypart** — which folder to pull music/drops from — is based on
+  the visitor's local clock: `am` (6am–12pm), `day` (12pm–8pm),
+  `late` (8pm–6am).
+- **Sponsor break** — minutes 55–59 of every clock hour play sponsor
+  spots, in the exact order listed in `playlist.json`, then regular
+  programming resumes at the top of the hour.
+- Outside the sponsor window, each track is randomly picked: ~10%
+  chance of a news item, ~10% chance of a station drop, otherwise
+  music from the current daypart's folder.
+
+Because GitHub Pages can't list folder contents on its own,
+`playlist.json` at the repo root is a manifest of every actual
+filename in each folder. **If you add or remove audio/vingle files,
+you have to update `playlist.json` to match** — the player only
+knows about what's listed there.
 
 ## Folder structure
 
 ```
-config/
-  archive_shows.json       Internet Archive show identifiers to pull
-scripts/
-  fetch_archive_playlist.py  Generates media/archive/*.m3u from Archive.org
+site/
+  index.html          The page itself - hero, menu, listen button
+  player.js             All the JS: hero reel, sound toggle, menu,
+                         and the audio/vingle scheduling engine
+  styles.css             Currently unused - all CSS is inline in
+                         index.html. Safe to delete or to move the
+                         <style> block into later.
+playlist.json           Manifest of every playable file. Update this
+                         whenever you add/remove files in media/block/
+                         or video/vingle/.
 media/
-  block/                  Your 55-min music + drops/IDs mix (add files here)
-  sponsor/                5-min commercial/sponsor spots (add files here)
-  fallback/               Single safety file - prevents dead air if
-                          everything else is empty (add one file here,
-                          named please_stand_by.mp3)
-  archive/                Generated .m3u playlists - do not edit by hand,
-                          re-run the fetch script instead
-radio_scheduler.liq       The Liquidsoap config that runs it all
+  videos/                The 3 fixed hero reel clips (not dayparted)
+  block/
+    am/, music/, l8/      Daypart music pools (am / day / late)
+    drop/am/, drop/lunch/, drop/pm/    Daypart station drops
+    news/                  News items
+    sponsor/                Sponsor spots - order comes from
+                            playlist.json's "sponsor_order", not
+                            folder order
+video/
+  vingle/                 The 2 clips shown during audio-only
+                          playback: COMMERCIAL BREAK.mp4 (sponsor
+                          breaks) and DJ MACKINTHEDARK.mp4
+                          (everything else)
+  am/, day/, l8/, 10at10/  Not wired into the site yet. Reserved for
+                            a future dayparted-hero version - ask if
+                            you want that built.
+videos/
+  loop/                   Not wired into the site yet (ambient loop
+                          clips: Beach, Earth Running).
+config/
+  archive_shows.json      Internet Archive show identifiers, used by
+                          scripts/fetch_archive_playlist.py. Not
+                          currently wired into the JS player.
+scripts/
+  fetch_archive_playlist.py   Generates .m3u playlists from
+                              archive.org. Leftover from the
+                              Liquidsoap version - only useful again
+                              if old-time-radio archive shows get
+                              added to the JS player.
 ```
 
-## First-time setup
+### Leftover files safe to delete
 
-1. Install Liquidsoap and Icecast on your server/host.
-2. Drop real audio files into `media/block/` and `media/sponsor/`.
-   A single placeholder file in `media/fallback/` named
-   `please_stand_by.mp3` covers you until those folders have content.
-3. Run the archive fetch script to pull old-time-radio episodes:
-   ```
-   python3 scripts/fetch_archive_playlist.py
-   ```
-   This streams directly from archive.org - nothing gets downloaded
-   or stored on your server, it just builds a playlist of direct URLs.
-4. Open `radio_scheduler.liq` and replace:
-   - `CHANGE_ME_LIVE_PASSWORD` - password Mixxx uses to connect live
-   - `CHANGE_ME_ICECAST_SOURCE_PASSWORD` - must match your Icecast
-     source password
-   - `host`/`port`/`mount` under the Icecast output if you're using a
-     hosted Icecast provider instead of self-hosting
-5. Run it: `liquidsoap radio_scheduler.liq`
+These were part of the old Liquidsoap/Icecast setup and aren't used
+by the current site:
+- `radio_scheduler.js` (repo root) — early draft, superseded by
+  `site/player.js`
+- `media/radio/scheduler.js` — empty, same reason
 
-## Adding more archive shows
+## Adding or changing content
 
-Find the show on archive.org (e.g. `archive.org/details/OTRR_Dragnet_Singles`)
-- the identifier is the last part of that URL. Add an entry to
-`config/archive_shows.json`:
+**Music, drops, news:** drop files into the right `media/block/`
+subfolder, then add the filename to the matching array in
+`playlist.json`.
 
-```json
-{ "identifier": "OTRR_Gunsmoke_Singles", "label": "Gunsmoke" }
-```
+**Sponsors:** drop the file into `media/block/sponsor/`, then add
+the filename to `playlist.json`'s `"sponsor_order"` array in the
+exact position you want it to play.
 
-Then re-run `fetch_archive_playlist.py`, and add the new .m3u to
-`radio_scheduler.liq` the same way `OTRR_Dragnet_Singles.m3u` is
-wired in. Double-check each collection is public domain / freely
-redistributable before adding it - not everything on archive.org
-is licensed the same way.
+**Vingle clips:** these are hardcoded to two specific files
+(`COMMERCIAL BREAK.mp4` and `DJ MACKINTHEDARK.mp4`, referenced in
+`playlist.json`'s `"vingle"` object). Replace those two files in
+`video/vingle/` directly, or update both the files and the
+`playlist.json` entries if you rename them.
 
-## Keeping episode lists fresh
+**Hero reel:** the 3 clips are hardcoded in `site/index.html`
+(inside `<div class="reel">`). Swap the `src` attributes to change
+them.
 
-Archive.org collections get new episodes added over time. Re-run
-`fetch_archive_playlist.py` periodically (a weekly cron job, or a
-scheduled GitHub Action) to pick up anything new.
+## Known placeholders
+
+`COMMERCIAL BREAK.mp4`, `DJ MACKINTHEDARK.mp4`, and
+`FRAIDY CATS SAMPLE.mp3` are currently 2-byte stub files — they need
+real content before Listen Live is actually listenable end to end.
