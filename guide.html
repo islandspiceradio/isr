@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Channel Guide — Island Spice Radio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,500;0,9..144,600;1,9..144,500&family=Space+Grotesk:wght@400;500;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#0B1F1C;
+    --reef:#0F2E29;
+    --reef-2:#123832;
+    --reef-line: rgba(237,239,228,0.12);
+    --chili:#E8452C;
+    --turmeric:#F2A93B;
+    --teal:#3FBFAE;
+    --guava:#D9527C;
+    --foam:#EDEFE4;
+    --foam-dim: rgba(237,239,228,0.62);
+  }
+
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:var(--ink);
+    color:var(--foam);
+    font-family:'Space Grotesk', sans-serif;
+    -webkit-font-smoothing:antialiased;
+    min-height:100vh;
+  }
+
+  a{ color:inherit; }
+
+  .eyebrow{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:12.5px;
+    letter-spacing:0.14em;
+    text-transform:uppercase;
+    color:var(--turmeric);
+  }
+
+  /* ---------- TOP BAR ---------- */
+  .topbar{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:16px;
+    padding: clamp(18px, 3vw, 32px) clamp(20px, 4vw, 48px) 0;
+  }
+  .wordmark{
+    font-family:'Fraunces', serif;
+    font-weight:600;
+    font-size:clamp(18px, 2.1vw, 24px);
+    letter-spacing:0.01em;
+    text-decoration:none;
+  }
+  .wordmark span{ color:var(--chili); font-style:italic; font-weight:500; }
+
+  .live-pill{
+    display:flex;
+    align-items:center;
+    gap:8px;
+    font-family:'IBM Plex Mono', monospace;
+    font-size:12px;
+    letter-spacing:0.12em;
+    text-transform:uppercase;
+    color:var(--foam);
+    background:rgba(11,31,28,0.55);
+    border:1px solid var(--reef-line);
+    padding:8px 14px;
+    border-radius:999px;
+    white-space:nowrap;
+  }
+  .live-dot{
+    width:8px; height:8px; border-radius:50%;
+    background:var(--chili);
+    box-shadow:0 0 0 0 rgba(232,69,44,0.6);
+    animation: pulse 2.2s infinite;
+  }
+  @keyframes pulse{
+    0%{ box-shadow:0 0 0 0 rgba(232,69,44,0.55); }
+    70%{ box-shadow:0 0 0 10px rgba(232,69,44,0); }
+    100%{ box-shadow:0 0 0 0 rgba(232,69,44,0); }
+  }
+
+  /* ---------- PAGE HEADING ---------- */
+  .page-head{
+    padding: clamp(20px, 3vw, 32px) clamp(20px, 4vw, 48px) 0;
+    max-width:900px;
+  }
+  .page-title{
+    font-family:'Fraunces', serif;
+    font-weight:500;
+    font-size:clamp(30px, 4.6vw, 48px);
+    letter-spacing:-0.01em;
+    margin: 10px 0 8px;
+  }
+  .page-sub{
+    color:var(--foam-dim);
+    font-size:14.5px;
+    max-width:60ch;
+    line-height:1.5;
+  }
+
+  /* ---------- ON NOW PANEL ---------- */
+  .onnow{
+    margin: clamp(24px, 4vw, 40px) clamp(20px, 4vw, 48px) 0;
+  }
+  .onnow-frame{
+    position:relative;
+    width:100%;
+    aspect-ratio: 16/8;
+    border-radius:16px;
+    overflow:hidden;
+    background:var(--reef);
+    border:1px solid var(--reef-line);
+  }
+  .onnow-frame video{
+    position:absolute;
+    inset:0;
+    width:100%;
+    height:100%;
+    object-fit:cover;
+  }
+  .onnow-frame::after{
+    content:"";
+    position:absolute;
+    inset:0;
+    background: linear-gradient(180deg, rgba(11,31,28,0) 35%, rgba(11,31,28,0.92) 100%);
+    pointer-events:none;
+  }
+  .onnow-overlay{
+    position:absolute;
+    inset:0;
+    z-index:2;
+    display:flex;
+    flex-direction:column;
+    justify-content:flex-end;
+    padding: clamp(16px,3vw,28px);
+    gap:6px;
+  }
+  .onnow-tag{
+    display:inline-flex;
+    align-self:flex-start;
+    align-items:center;
+    gap:7px;
+    font-family:'IBM Plex Mono', monospace;
+    font-size:11.5px;
+    letter-spacing:0.12em;
+    text-transform:uppercase;
+    padding:6px 12px;
+    border-radius:999px;
+    background:rgba(11,31,28,0.7);
+    border:1px solid var(--reef-line);
+    margin-bottom:4px;
+  }
+  .onnow-tag .dot{ width:7px;height:7px;border-radius:50%; background:currentColor; }
+  .onnow-title{
+    font-family:'Fraunces', serif;
+    font-weight:500;
+    font-size:clamp(20px, 3vw, 30px);
+  }
+  .onnow-next{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:12px;
+    letter-spacing:0.05em;
+    color:var(--foam-dim);
+  }
+  .onnow-next b{ color:var(--turmeric); font-weight:600; }
+
+  /* tag colors per block */
+  .onnow-tag.tag-am{ color:var(--turmeric); }
+  .onnow-tag.tag-day{ color:var(--chili); }
+  .onnow-tag.tag-late{ color:var(--teal); }
+  .onnow-tag.tag-10at10{ color:var(--guava); }
+  .onnow-tag.tag-sponsor{ color:var(--foam-dim); }
+
+  /* ---------- TIMELINE ---------- */
+  .timeline-section{
+    margin: clamp(32px,5vw,56px) clamp(20px, 4vw, 48px) clamp(48px,6vw,72px);
+  }
+  .timeline-head{
+    display:flex;
+    align-items:baseline;
+    justify-content:space-between;
+    flex-wrap:wrap;
+    gap:10px;
+    margin-bottom:16px;
+  }
+  .timeline-title{
+    font-family:'Fraunces', serif;
+    font-weight:500;
+    font-size:clamp(20px, 2.6vw, 26px);
+  }
+  .legend{
+    display:flex;
+    flex-wrap:wrap;
+    gap:14px;
+  }
+  .legend-item{
+    display:flex;
+    align-items:center;
+    gap:6px;
+    font-family:'IBM Plex Mono', monospace;
+    font-size:11px;
+    letter-spacing:0.06em;
+    text-transform:uppercase;
+    color:var(--foam-dim);
+  }
+  .legend-swatch{ width:10px; height:10px; border-radius:3px; }
+  .sw-am{ background:var(--turmeric); }
+  .sw-day{ background:var(--chili); }
+  .sw-late{ background:var(--teal); }
+  .sw-10at10{ background:var(--guava); }
+  .sw-sponsor{ background:transparent; border:1px dashed var(--foam-dim); }
+
+  .timeline{
+    display:flex;
+    flex-direction:column;
+    border-radius:14px;
+    border:1px solid var(--reef-line);
+    overflow:hidden;
+  }
+  .timeline-row{
+    display:flex;
+    align-items:center;
+    gap:14px;
+    padding:8px clamp(12px,2vw,18px);
+    background:var(--reef);
+  }
+  .timeline-row:nth-child(even){ background:var(--reef-2); }
+  .timeline-time{
+    width:64px;
+    flex-shrink:0;
+    font-family:'IBM Plex Mono', monospace;
+    font-size:11.5px;
+    color:var(--foam-dim);
+  }
+  .timeline-bar{
+    flex:1;
+    display:flex;
+    height:30px;
+    border-radius:7px;
+    overflow:hidden;
+  }
+  .timeline-seg{
+    display:flex;
+    align-items:center;
+    padding:0 10px;
+    font-family:'IBM Plex Mono', monospace;
+    font-size:10px;
+    letter-spacing:0.06em;
+    text-transform:uppercase;
+    color:rgba(11,31,28,0.85);
+    font-weight:600;
+    white-space:nowrap;
+    overflow:hidden;
+    position:relative;
+    transition: box-shadow 200ms ease;
+  }
+  .timeline-seg.programming{ flex:11; }
+  .timeline-seg.sponsor{
+    flex:1;
+    background: repeating-linear-gradient(135deg, rgba(237,239,228,0.10) 0 6px, rgba(237,239,228,0.03) 6px 12px);
+    color: var(--foam-dim);
+    font-weight:500;
+    justify-content:center;
+    padding:0 4px;
+  }
+  .timeline-seg.seg-am{ background:var(--turmeric); }
+  .timeline-seg.seg-day{ background:var(--chili); color:var(--foam); }
+  .timeline-seg.seg-late{ background:var(--teal); }
+  .timeline-seg.seg-10at10{ background:var(--guava); color:var(--foam); }
+
+  .timeline-seg.is-live{
+    box-shadow: inset 0 0 0 2px var(--foam), 0 0 14px rgba(242,169,59,0.55);
+    animation: liveglow 2s ease-in-out infinite;
+  }
+  @keyframes liveglow{
+    0%,100%{ box-shadow: inset 0 0 0 2px var(--foam), 0 0 6px rgba(242,169,59,0.35); }
+    50%{ box-shadow: inset 0 0 0 2px var(--foam), 0 0 18px rgba(242,169,59,0.7); }
+  }
+
+  .timeline-row.is-live-row{ background:rgba(242,169,59,0.06); }
+
+  @media (prefers-reduced-motion: reduce){
+    .live-dot{ animation:none; }
+    .timeline-seg.is-live{ animation:none; }
+  }
+
+  @media (max-width:640px){
+    .timeline-seg span{ display:none; }
+    .timeline-time{ width:52px; font-size:10.5px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <a class="wordmark" href="index.html">ISLAND <span>SPICE</span> RADIO</a>
+  <div class="live-pill"><span class="live-dot"></span>On air now</div>
+</div>
+
+<div class="page-head">
+  <div class="eyebrow">Channel guide</div>
+  <h1 class="page-title">What's on now.</h1>
+  <p class="page-sub">Music videos rotate by time of day, with a sponsor break at the top of every hour's last five minutes.</p>
+</div>
+
+<section class="onnow">
+  <div class="onnow-frame">
+    <video id="onNowVideo" muted loop playsinline preload="auto"></video>
+    <div class="onnow-overlay">
+      <div class="onnow-tag" id="onNowTag"><span class="dot"></span><span id="onNowTagText">Loading</span></div>
+      <div class="onnow-title" id="onNowTitle">Loading…</div>
+      <div class="onnow-next" id="onNowNext"></div>
+    </div>
+  </div>
+</section>
+
+<section class="timeline-section">
+  <div class="timeline-head">
+    <div class="timeline-title">Today's schedule</div>
+    <div class="legend">
+      <div class="legend-item"><span class="legend-swatch sw-am"></span>AM block</div>
+      <div class="legend-item"><span class="legend-swatch sw-day"></span>Day block</div>
+      <div class="legend-item"><span class="legend-swatch sw-late"></span>Late block</div>
+      <div class="legend-item"><span class="legend-swatch sw-10at10"></span>10 at 10</div>
+      <div class="legend-item"><span class="legend-swatch sw-sponsor"></span>Sponsor break</div>
+    </div>
+  </div>
+  <div class="timeline" id="timeline"></div>
+</section>
+
+<script src="guide.js" defer></script>
+
+</body>
+</html>
